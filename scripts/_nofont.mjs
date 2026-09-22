@@ -1,0 +1,10 @@
+import { chromium } from "@playwright/test";
+const b = await chromium.launch({ channel: "chrome" });
+const c = await b.newContext({ viewport: { width: 390, height: 844 } });
+const p = await c.newPage();
+await p.route("**/*.woff2", (r) => r.abort());
+await p.addInitScript(() => { window.__s = 0; new PerformanceObserver(l => { for (const e of l.getEntries()) if (!e.hadRecentInput) window.__s += e.value; }).observe({type:"layout-shift", buffered:true}); });
+await p.goto("http://127.0.0.1:4173/", { waitUntil: "load" });
+await p.waitForTimeout(2500);
+console.log("CLS with fonts blocked:", (await p.evaluate(() => window.__s)).toFixed(4));
+await b.close();

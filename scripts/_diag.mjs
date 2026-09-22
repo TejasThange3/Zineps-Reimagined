@@ -1,0 +1,11 @@
+import { chromium } from "@playwright/test";
+const b = await chromium.launch({ channel: "chrome" });
+const c = await b.newContext({ viewport: { width: 1280, height: 900 } });
+const p = await c.newPage();
+const out = [];
+p.on("console", (m) => { if (m.type() === "error" || m.type() === "warning") out.push(m.text()); });
+p.on("pageerror", (e) => out.push("PAGEERROR " + e.message));
+await p.goto("http://127.0.0.1:4173" + ("/" + (process.env.R || "knowledge-base").replace(/^[/]/, "")), { waitUntil: "networkidle" });
+await p.waitForTimeout(1200);
+console.log(out.join("\n\n---\n\n").slice(0, 4000) || "clean");
+await b.close();

@@ -1,0 +1,601 @@
+/* ==========================================================================
+   Home page, revised layout
+   ========================================================================== */
+
+/* ---- Partner rates: map and counters ------------------------------------ */
+
+.rates-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(2rem, 1rem + 4vw, 4.5rem);
+  align-items: center;
+}
+
+.rates-map {
+  position: relative;
+}
+
+/* A soft wash behind the map so the dots sit on something, not in a void. */
+.rates-map::before {
+  content: "";
+  position: absolute;
+  inset: -12% -6%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--mint-400) 13%, transparent),
+    transparent 78%
+  );
+}
+
+.rates-figures {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+  border-top: 1px solid var(--line);
+}
+
+.rates-figures li {
+  display: grid;
+  gap: 0.3rem;
+  padding: 1.5rem 1.25rem 0 0;
+}
+
+.rates-figures li + li {
+  border-left: 1px solid var(--line);
+  padding-left: clamp(1rem, 0.5rem + 1.5vw, 2rem);
+}
+
+.rates-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(2rem, 1.4rem + 2.2vw, 3.25rem);
+  font-weight: 450;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--text);
+}
+
+.rates-label {
+  font-size: var(--t-sm);
+  color: var(--text-mute);
+  max-width: 18ch;
+}
+
+/* ---- Workflow ----------------------------------------------------------- */
+
+.flow-head {
+  display: grid;
+  gap: 1rem;
+}
+
+.flow-head .lead {
+  max-width: 54ch;
+}
+
+
+
+.flow-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  position: relative;
+  margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  border-top: 1px solid var(--line);
+}
+
+.flow-rail-fill {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--accent);
+  transform-origin: left;
+  transition: transform 520ms var(--ease-out);
+}
+
+.flow-step {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.9rem 0.25rem;
+  font-size: var(--t-sm);
+  color: var(--text-mute);
+  transition: color var(--d-panel) ease;
+}
+
+.flow-step[data-done] {
+  color: var(--text);
+}
+
+.flow-step-dot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  transition:
+    background-color var(--d-pop) var(--ease-out),
+    border-color var(--d-pop) var(--ease-out),
+    transform var(--d-pop) var(--ease-out),
+    box-shadow var(--d-pop) var(--ease-out);
+}
+
+.flow-step[data-done] .flow-step-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.flow-step[data-current] .flow-step-dot {
+  transform: scale(1.4);
+  box-shadow: 0 0 0 4px var(--accent-faint);
+}
+
+/* ---- Stacked stage cards ------------------------------------------------ */
+
+.stack {
+  margin-top: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+}
+
+.stack-card {
+  padding-top: 1.25rem;
+}
+
+.flow-panel {
+  border-radius: var(--r-xl);
+}
+
+.flow-pane {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+  align-items: center;
+  padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  min-height: 21rem;
+}
+
+.flow-text {
+  display: grid;
+  align-content: center;
+  gap: 0.75rem;
+}
+
+.flow-index {
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+  color: var(--accent-text);
+}
+
+.flow-text h3 {
+  max-width: 15ch;
+}
+
+.flow-text p {
+  color: var(--text-soft);
+  max-width: 40ch;
+  font-size: var(--t-sm);
+}
+
+.flow-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 0.75rem + 1vw, 1.6rem);
+  background: var(--surface-inset);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-lg);
+  min-height: 15rem;
+}
+
+/* Records, rules, labels and events inside the stage cards */
+
+.flow-record {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.15rem 1.75rem;
+  width: 100%;
+}
+
+.flow-record dt {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-label);
+  color: var(--text-faint);
+  margin-bottom: 0.25rem;
+}
+
+.flow-record dd {
+  margin: 0;
+  font-size: var(--t-sm);
+  line-height: 1.45;
+}
+
+.flow-soft {
+  color: var(--text-mute);
+}
+
+.flow-ok {
+  color: var(--accent-text);
+}
+
+.flow-rule {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+}
+
+.flow-code {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  line-height: 1.8;
+  padding: 0.9rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  color: var(--text-soft);
+}
+
+.flow-kw {
+  color: var(--accent-text);
+  font-weight: 500;
+}
+
+.flow-op {
+  color: var(--text-faint);
+}
+
+.flow-matched {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: var(--t-xs);
+  color: var(--text-soft);
+}
+
+.flow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+  box-shadow: 0 0 0 3px var(--accent-faint);
+}
+
+.flow-compare {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.flow-compare li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 1rem;
+  padding: 0.55rem 0.5rem;
+  font-size: var(--t-xs);
+  color: var(--text-mute);
+  border-bottom: 1px solid var(--line-soft);
+  border-radius: var(--r-xs);
+}
+
+.flow-compare li[data-win] {
+  background: var(--accent-faint);
+  color: var(--text);
+  font-weight: 500;
+}
+
+.flow-label {
+  width: 100%;
+  max-width: 20rem;
+  padding: 0.9rem 1rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+}
+
+.flow-label-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--t-micro);
+  letter-spacing: 0.08em;
+  color: var(--text-mute);
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.flow-label-to {
+  font-size: var(--t-sm);
+  line-height: 1.5;
+  padding-block: 0.8rem;
+}
+
+.flow-barcode {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 40px;
+  margin-bottom: 0.5rem;
+}
+
+.flow-barcode i {
+  display: block;
+  width: calc(var(--w) * 1px);
+  height: 100%;
+  background: var(--text);
+}
+
+.flow-track {
+  font-size: var(--t-xs);
+  letter-spacing: 0.1em;
+  color: var(--text-soft);
+}
+
+.flow-events {
+  display: grid;
+  width: 100%;
+  max-width: 24rem;
+}
+
+.flow-events li {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.6rem 0 0.6rem 1.25rem;
+  position: relative;
+  color: var(--text-faint);
+}
+
+.flow-events li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.95rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+}
+
+.flow-events li[data-done] {
+  color: var(--text);
+}
+
+.flow-events li[data-done]::before {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.flow-events li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 1.6rem;
+  bottom: -0.3rem;
+  width: 1px;
+  background: var(--line);
+}
+
+.flow-events-time {
+  font-size: var(--t-xs);
+  min-width: 4.5rem;
+  color: var(--text-mute);
+}
+
+.flow-events-label {
+  font-size: var(--t-sm);
+}
+
+/* ---- Shipping AI trend -------------------------------------------------- */
+
+.intel-trend {
+  padding-top: 1.1rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.intel-trend-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: var(--t-micro);
+  letter-spacing: 0.08em;
+  color: var(--text-mute);
+  margin-bottom: 0.5rem;
+}
+
+.intel-trend-drop {
+  color: var(--text-soft);
+  letter-spacing: -0.02em;
+}
+
+.intel-panel-shell {
+  padding: 7px;
+  border-radius: var(--r-xl);
+}
+
+.intel-panel-core {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--r-xl) - 7px);
+  padding: clamp(1.1rem, 0.9rem + 0.8vw, 1.6rem);
+}
+
+/* ---- Scale band: globe and counters ------------------------------------- */
+
+.scale {
+  position: relative;
+  background: var(--deep-bg);
+  color: var(--deep-text);
+  padding-block: clamp(4rem, 3rem + 5vw, 7.5rem);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.scale::before {
+  content: "";
+  position: absolute;
+  inset: -30% -10% auto;
+  height: 90%;
+  pointer-events: none;
+  background: radial-gradient(
+    46% 52% at 74% 40%,
+    color-mix(in srgb, var(--mint-400) 15%, transparent),
+    transparent 72%
+  );
+}
+
+.scale-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+  align-items: center;
+}
+
+.scale-copy {
+  display: grid;
+  gap: 1.15rem;
+  justify-items: start;
+}
+
+.scale-title {
+  font-size: var(--t-h2);
+  max-width: 18ch;
+  color: var(--deep-text);
+}
+
+.scale-lead {
+  font-size: var(--t-lead);
+  line-height: 1.55;
+  color: var(--deep-soft);
+  max-width: 44ch;
+}
+
+.scale-cta {
+  --btn-bg: transparent;
+  --btn-fg: var(--deep-text);
+  --btn-line: var(--deep-line);
+  box-shadow: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .scale-cta:hover {
+    --btn-bg: rgba(255, 255, 255, 0.06);
+    --btn-line: var(--mint-400);
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.scale-globe {
+  max-width: 30rem;
+  margin-block: -2rem;
+}
+
+.scale-figures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  margin-top: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--deep-line);
+}
+
+.scale-value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(2rem, 1.4rem + 2.2vw, 3.25rem);
+  font-weight: 450;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--mint-300);
+}
+
+.scale-unit {
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--deep-soft);
+}
+
+.scale-label {
+  margin-top: 0.85rem;
+  font-size: var(--t-sm);
+  line-height: 1.5;
+  color: var(--deep-soft);
+  max-width: 30ch;
+}
+
+.scale-source {
+  margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  font-size: var(--t-micro);
+  color: var(--deep-soft);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 1080px) {
+  .rates-grid,
+  .scale-top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rates-figures {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .rates-figures li:nth-child(odd) {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .rates-figures li:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+    margin-top: 1.25rem;
+  }
+  .scale-globe {
+    max-width: 24rem;
+    margin-block: 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .flow-pane {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+  .flow-rail {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .rates-figures {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rates-figures li {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 1.25rem;
+    margin-top: 0;
+  }
+  .rates-figures li:first-child {
+    border-top: 0;
+  }
+  .scale-figures {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+  .flow-record {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,470 @@
+/* ==========================================================================
+   Integration directory
+   ========================================================================== */
+
+.dir-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* The filter rail takes the room that is left and scrolls inside it. A flex
+   item defaults to min-width:auto, which refuses to shrink below its content,
+   so a five-option filter would otherwise push past a phone. */
+.dir-controls > .seg-rail {
+  min-width: 0;
+  flex: 1 1 16rem;
+}
+
+.dir-search {
+  flex: 0 1 18rem;
+  min-width: min(14rem, 100%);
+}
+
+.dir-count {
+  margin-top: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-label);
+  color: var(--text-faint);
+}
+
+.dir-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 0 clamp(1.5rem, 1rem + 2vw, 3rem);
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.dir-item {
+  display: grid;
+  align-content: start;
+  gap: 0.4rem;
+  padding: 1.5rem 0 1.6rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.dir-mark {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 0.65rem;
+}
+
+.dir-initial {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-sm);
+  background: var(--surface-inset);
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.dir-item h2 {
+  font-size: var(--t-body);
+  font-weight: 540;
+  letter-spacing: -0.014em;
+}
+
+.dir-item p {
+  font-size: var(--t-sm);
+  color: var(--text-mute);
+  max-width: 34ch;
+}
+
+.dir-cat {
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-label);
+  color: var(--text-faint);
+  margin-top: 0.35rem;
+}
+
+.dir-empty {
+  display: grid;
+  justify-items: start;
+  gap: 0.6rem;
+  padding: clamp(2.5rem, 2rem + 2vw, 4rem) 0;
+  border-top: 1px solid var(--line);
+  margin-top: 0.75rem;
+}
+
+.dir-empty-hint {
+  font-size: var(--t-sm);
+  color: var(--text-mute);
+  max-width: 44ch;
+}
+
+.api-band {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.api-band-in {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.api-band-in h2 {
+  max-width: 18ch;
+  margin-bottom: 0.9rem;
+}
+
+.api-band-in .lead {
+  max-width: 50ch;
+}
+
+/* ==========================================================================
+   Rule builder
+   ========================================================================== */
+
+.rule {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.rule-shell {
+  padding: 7px;
+  background: var(--surface-inset);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-xl);
+}
+
+.rule-core {
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1.25rem, 1rem + 1vw, 1.9rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--r-xl) - 7px);
+  box-shadow: var(--sh-2);
+}
+
+.rule-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: clamp(1rem, 0.94rem + 0.3vw, 1.15rem);
+  line-height: 1.7;
+}
+
+.rule-kw {
+  color: var(--text-mute);
+}
+
+.rule-op {
+  color: var(--text-faint);
+}
+
+/* The native select sits invisibly over its own label, so the control keeps
+   full platform behaviour while reading as part of the sentence. */
+.rule-slot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 1.5rem 0.22rem 0.55rem;
+  border-radius: var(--r-sm);
+  background: var(--accent-faint);
+  border: 1px solid var(--accent-line);
+  color: var(--accent-text);
+  font-weight: 500;
+  transition:
+    background-color var(--d-hover) ease,
+    border-color var(--d-hover) ease;
+}
+
+.rule-slot::after {
+  content: "";
+  position: absolute;
+  right: 0.55rem;
+  width: 6px;
+  height: 6px;
+  border-right: 1.2px solid currentColor;
+  border-bottom: 1.2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  opacity: 0.65;
+}
+
+.rule-slot select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.rule-slot:hover,
+.rule-slot:focus-within {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.rule-out {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line-soft);
+  font-size: clamp(1rem, 0.94rem + 0.3vw, 1.15rem);
+}
+
+.rule-service {
+  font-weight: 540;
+  letter-spacing: -0.02em;
+}
+
+.rule-why {
+  font-size: var(--t-xs);
+  color: var(--text-mute);
+  padding-inline: 0.5rem;
+  min-height: 2.5em;
+  max-width: 46ch;
+}
+
+/* ==========================================================================
+   Customs document, partner workspace, network, explanation
+   ========================================================================== */
+
+.customs,
+.workspace,
+.explain {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.customs-shell,
+.workspace-shell,
+.explain-shell {
+  padding: 7px;
+  background: var(--surface-inset);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-xl);
+}
+
+.customs-core,
+.workspace-core,
+.explain-core {
+  padding: clamp(1.1rem, 0.9rem + 0.8vw, 1.75rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--r-xl) - 7px);
+  box-shadow: var(--sh-2);
+}
+
+.customs-head,
+.workspace-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: var(--t-micro);
+  letter-spacing: 0.08em;
+  color: var(--text-mute);
+}
+
+.customs-rows {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem 2rem;
+  padding-block: 1.25rem;
+}
+
+.customs-rows dt {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-label);
+  color: var(--text-faint);
+  margin-bottom: 0.25rem;
+}
+
+.customs-rows dd {
+  margin: 0;
+  font-size: var(--t-sm);
+}
+
+.customs-note {
+  font-size: var(--t-xs);
+  color: var(--text-mute);
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.workspace-period {
+  color: var(--text-faint);
+}
+
+.workspace-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-block: 0.5rem 1rem;
+}
+
+.workspace-table th,
+.workspace-table td {
+  text-align: left;
+  padding: 0.7rem 0;
+  font-size: var(--t-sm);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.workspace-table thead th {
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-label);
+  font-family: var(--font-mono);
+  font-weight: 450;
+  color: var(--text-faint);
+}
+
+.workspace-table tbody th {
+  font-weight: 450;
+}
+
+.workspace-table td {
+  text-align: right;
+}
+
+.workspace-margin {
+  color: var(--accent-text);
+}
+
+/* ---- Network ------------------------------------------------------------ */
+
+.network {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+  align-items: center;
+  padding: clamp(1.25rem, 1rem + 1vw, 2rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-2);
+}
+
+.network-label {
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-label);
+  color: var(--text-faint);
+  margin-bottom: 0.75rem;
+}
+
+.network-col ul {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.network-col li {
+  padding: 0.55rem 0.75rem;
+  background: var(--surface-inset);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-sm);
+  font-size: var(--t-xs);
+  color: var(--text-soft);
+}
+
+.network-spine {
+  position: relative;
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  min-width: 5.5rem;
+}
+
+.network-spine::before {
+  content: "";
+  position: absolute;
+  top: 12%;
+  bottom: 12%;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--accent-line) 20%,
+    var(--accent-line) 80%,
+    transparent
+  );
+}
+
+.network-hub {
+  position: relative;
+  padding: 0.4rem 0.75rem;
+  background: var(--accent-faint);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-text);
+}
+
+/* ---- Explanation steps -------------------------------------------------- */
+
+.explain-head {
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-label);
+  color: var(--text-faint);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.explain-steps {
+  display: grid;
+}
+
+.explain-steps li {
+  display: flex;
+  gap: 1rem;
+  padding-block: 1.1rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.explain-steps li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.explain-index {
+  font-size: var(--t-micro);
+  color: var(--text-faint);
+  padding-top: 0.2rem;
+}
+
+.explain-body {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.explain-body b {
+  font-size: var(--t-sm);
+  font-weight: 540;
+}
+
+.explain-body > span {
+  font-size: var(--t-xs);
+  line-height: 1.55;
+  color: var(--text-mute);
+  max-width: 46ch;
+}

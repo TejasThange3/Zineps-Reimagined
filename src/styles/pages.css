@@ -1,0 +1,773 @@
+/* ==========================================================================
+   Subpage layouts
+   ========================================================================== */
+
+/* ---- Shared page opening ------------------------------------------------ */
+
+.intro {
+  position: relative;
+  padding-block: clamp(3rem, 2rem + 3vw, 5rem) clamp(2.5rem, 2rem + 2vw, 4rem);
+  overflow: clip;
+  border-bottom: 1px solid var(--line);
+}
+
+.intro-wash {
+  position: absolute;
+  inset: -60% -10% -20%;
+  pointer-events: none;
+  background: radial-gradient(
+    54% 46% at 76% 26%,
+    color-mix(in srgb, var(--mint-400) 20%, transparent),
+    transparent 72%
+  );
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 95%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 95%);
+}
+
+:root[data-theme="dark"] .intro-wash {
+  opacity: 0.45;
+}
+
+.intro-in {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(2rem, 1rem + 4vw, 4.5rem);
+  align-items: end;
+}
+
+.intro-in:not(:has(.intro-aside)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.intro-copy {
+  display: grid;
+  gap: 1.15rem;
+  justify-items: start;
+}
+
+.intro-copy h1 {
+  max-width: 21ch;
+}
+
+.intro-copy .lead {
+  max-width: 54ch;
+}
+
+.intro-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: center;
+  margin-top: 0.4rem;
+  /* A grid item defaults to min-width:auto and refuses to shrink below its
+     content, so a wide filter rail in here would push past the column. */
+  min-width: 0;
+  width: 100%;
+}
+
+/* ---- Pricing estimator --------------------------------------------------- */
+
+.est-shell {
+  padding: 7px;
+  background: var(--surface-inset);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-xl);
+}
+
+.est-core {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr);
+  gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  padding: clamp(1.25rem, 1rem + 1.5vw, 2.25rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--r-xl) - 7px);
+  box-shadow: var(--sh-2);
+}
+
+.est-control {
+  display: grid;
+  align-content: center;
+  gap: 0.35rem;
+}
+
+.est-label {
+  font-size: var(--t-xs);
+  color: var(--text-soft);
+}
+
+.est-volume {
+  font-size: clamp(2rem, 1.4rem + 2vw, 3.25rem);
+  font-weight: 450;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+}
+
+.est-control .range {
+  margin-top: 0.5rem;
+}
+
+.est-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--t-micro);
+  color: var(--text-faint);
+}
+
+.est-result {
+  display: grid;
+  align-content: center;
+  gap: 0.3rem;
+  justify-items: start;
+  padding-left: clamp(1.5rem, 1rem + 2vw, 3rem);
+  border-left: 1px solid var(--line);
+}
+
+.est-result-label {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-label);
+  color: var(--text-faint);
+}
+
+.est-plan {
+  font-size: var(--t-h3);
+  font-weight: 540;
+  letter-spacing: -0.02em;
+}
+
+.est-total {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.5rem);
+  font-weight: 450;
+  letter-spacing: -0.045em;
+  color: var(--accent-text);
+}
+
+.est-per {
+  font-size: var(--t-sm);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text-mute);
+}
+
+.est-breakdown {
+  font-size: var(--t-xs);
+  line-height: 1.5;
+  color: var(--text-mute);
+  max-width: 34ch;
+  margin-top: 0.3rem;
+}
+
+/* ---- Plans --------------------------------------------------------------- */
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.plan + .plan .plan-in {
+  border-left: 1px solid var(--line);
+}
+
+.plan-in {
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+  height: 100%;
+  padding: 1.75rem 1.35rem 2rem;
+  position: relative;
+  transition: background-color var(--d-hover) ease;
+}
+
+.plan-in[data-pick] {
+  background: var(--accent-faint);
+}
+
+.plan-in[data-pick]::before {
+  content: "";
+  position: absolute;
+  inset: -1px 0 auto;
+  height: 2px;
+  background: var(--accent);
+}
+
+.plan-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  min-height: 1.75rem;
+}
+
+.plan-head h2 {
+  font-size: var(--t-body);
+  font-weight: 540;
+  letter-spacing: -0.014em;
+}
+
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-size: 2rem;
+  font-weight: 450;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+  margin-top: 0.35rem;
+}
+
+.plan-per {
+  font-size: var(--t-xs);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text-mute);
+}
+
+.plan-label {
+  font-size: var(--t-micro);
+  color: var(--text-mute);
+  line-height: 1.5;
+}
+
+.plan-summary {
+  font-size: var(--t-xs);
+  color: var(--text-soft);
+  line-height: 1.5;
+  margin-block: 0.5rem 0.9rem;
+  min-height: 3em;
+}
+
+.plan .btn {
+  width: 100%;
+}
+
+.plan-features {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
+}
+
+.plan-features li {
+  position: relative;
+  padding-left: 0.9rem;
+  font-size: var(--t-xs);
+  line-height: 1.45;
+  color: var(--text-soft);
+}
+
+.plan-features li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 5px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.plans-note {
+  margin-top: 1.5rem;
+  font-size: var(--t-xs);
+  color: var(--text-mute);
+  max-width: 68ch;
+}
+
+/* ---- Comparison table ----------------------------------------------------
+   Grouped, with a sticky first column so the feature name stays put while
+   the plans scroll, and the recommended column tinted all the way down.  */
+
+.compare-section {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.compare-head {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 52ch;
+  margin-bottom: clamp(1.5rem, 1rem + 1.5vw, 2.25rem);
+}
+
+.compare-head h2 {
+  max-width: 14ch;
+}
+
+.compare-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+
+.compare {
+  width: 100%;
+  min-width: 52rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--t-sm);
+}
+
+/* ---- Header ------------------------------------------------------------- */
+
+/* Not sticky. Pinning the header to the viewport hid the first row of each
+   group behind it while the page scrolled, and the table is short enough
+   grouped that there is nothing to gain. */
+.compare thead th {
+  background: var(--surface-inset);
+  text-align: left;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--line-strong);
+  vertical-align: bottom;
+}
+
+.compare thead th[data-pick] {
+  background: var(--accent-faint);
+  box-shadow: inset 0 2px 0 var(--accent);
+}
+
+.compare-plan {
+  display: block;
+  font-size: var(--t-sm);
+  font-weight: 540;
+  letter-spacing: -0.014em;
+}
+
+.compare-price {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: var(--t-xs);
+  font-weight: 450;
+  letter-spacing: -0.02em;
+  color: var(--text-mute);
+}
+
+.compare-price i {
+  font-style: normal;
+  font-size: var(--t-micro);
+  /* The unit was set back with opacity, which dropped it under 4.5:1 against
+     the header fill. Size already separates it from the number, so it keeps
+     the full text colour. */
+  color: var(--text-soft);
+}
+
+/* ---- Group headings ------------------------------------------------------ */
+
+.compare-group th {
+  background: var(--surface-inset);
+  padding: 0.6rem 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--tr-label);
+  color: var(--text-mute);
+  text-align: left;
+  border-block: 1px solid var(--line);
+}
+
+/* ---- Body ---------------------------------------------------------------- */
+
+.compare tbody th[scope="row"] {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--surface);
+  text-align: left;
+  font-weight: 450;
+  color: var(--text-soft);
+  padding: 0.7rem 1rem;
+  width: 30%;
+  min-width: 13rem;
+}
+
+.compare td {
+  padding: 0.7rem 1rem;
+  color: var(--text-soft);
+  font-size: var(--t-xs);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.compare tbody th[scope="row"] {
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.compare td[data-pick] {
+  background: var(--accent-faint);
+}
+
+.compare tbody tr:last-child td,
+.compare tbody tr:last-child th {
+  border-bottom: 0;
+}
+
+.compare-value {
+  color: var(--text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .compare tbody tr:not(.compare-group):hover th[scope="row"],
+  .compare tbody tr:not(.compare-group):hover td {
+    background: var(--surface-inset);
+  }
+  .compare tbody tr:not(.compare-group):hover td[data-pick] {
+    background: var(--accent-soft);
+  }
+}
+
+.tick {
+  display: block;
+  width: 11px;
+  height: 7px;
+  border-left: 1.6px solid var(--accent);
+  border-bottom: 1.6px solid var(--accent);
+  transform: rotate(-45deg) translate(1px, -2px);
+}
+
+.dash {
+  display: block;
+  width: 10px;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 1080px) {
+  .plans {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-bottom: 0;
+  }
+  .plan-in {
+    border-bottom: 1px solid var(--line);
+  }
+  .plan:nth-child(odd) .plan-in {
+    border-left: 0;
+  }
+  .plan-summary {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .intro-in {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+  .est-core {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .est-result {
+    padding-left: 0;
+    padding-top: 1.5rem;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 620px) {
+  .plans {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .plan .plan-in {
+    border-left: 0;
+  }
+}
+
+/* ==========================================================================
+   Shared page blocks
+   ========================================================================== */
+
+.caps-head {
+  display: grid;
+  gap: 1rem;
+  max-width: 52ch;
+  margin-bottom: clamp(2rem, 1.5rem + 2vw, 3.25rem);
+}
+
+.caps-head h2 {
+  max-width: 18ch;
+}
+
+/* ---- Capability list ---------------------------------------------------- */
+
+.caps {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.caps-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(2rem, 1rem + 4vw, 5rem);
+  border-top: 1px solid var(--line);
+}
+
+.caps-grid li {
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.caps-grid h3 {
+  font-size: var(--t-body);
+  font-weight: 540;
+  margin-bottom: 0.4rem;
+}
+
+.caps-grid p {
+  font-size: var(--t-sm);
+  color: var(--text-mute);
+  max-width: 48ch;
+}
+
+/* ---- Problem list ------------------------------------------------------- */
+
+.probs-list {
+  border-top: 1px solid var(--line);
+}
+
+.probs-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.6fr) minmax(0, 0.55fr);
+  gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  padding-block: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
+  border-bottom: 1px solid var(--line);
+  align-items: start;
+}
+
+.probs-name h3 {
+  font-size: var(--t-h3);
+  max-width: 14ch;
+}
+
+.probs-body {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.probs-problem {
+  font-size: var(--t-sm);
+  color: var(--text-mute);
+  max-width: 62ch;
+}
+
+.probs-answer {
+  font-size: var(--t-body);
+  color: var(--text);
+  max-width: 62ch;
+}
+
+.probs-figure {
+  display: grid;
+  gap: 0.2rem;
+  justify-items: end;
+  text-align: right;
+}
+
+.probs-figure .num {
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2.125rem);
+  font-weight: 450;
+  letter-spacing: -0.045em;
+  color: var(--accent-text);
+  line-height: 1.1;
+}
+
+.probs-figure span:last-child {
+  font-size: var(--t-micro);
+  color: var(--text-mute);
+  max-width: 14ch;
+}
+
+/* ---- Split feature ------------------------------------------------------ */
+
+.split-tinted {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.split-in {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(2.5rem, 1rem + 4vw, 5rem);
+  align-items: center;
+}
+
+.split-in[data-flip] .split-copy {
+  order: 2;
+}
+
+.split-copy {
+  display: grid;
+  gap: 1.15rem;
+  justify-items: start;
+}
+
+.split-copy h2 {
+  max-width: 17ch;
+}
+
+/* ---- Figure row --------------------------------------------------------- */
+
+.figrow-title {
+  margin-bottom: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+}
+
+.figrow-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+.figrow-list li {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.5rem 1.5rem 0 0;
+}
+
+.figrow-list li + li {
+  border-left: 1px solid var(--line);
+  padding-left: clamp(1.25rem, 1rem + 1.5vw, 2.5rem);
+}
+
+.figrow-value {
+  font-size: clamp(2rem, 1.5rem + 1.8vw, 3rem);
+  font-weight: 450;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.figrow-label {
+  font-size: var(--t-sm);
+  color: var(--text-mute);
+  max-width: 24ch;
+}
+
+.figrow-note {
+  margin-top: 1.25rem;
+  font-size: var(--t-micro);
+  color: var(--text-faint);
+}
+
+/* ==========================================================================
+   Additions for the revised pages
+   ========================================================================== */
+
+/* Surfaces replace the old plain shells, so the inner padding moves inward. */
+.est-shell .surface-in,
+.rule-shell .surface-in,
+.workspace-shell .surface-in,
+.customs-shell .surface-in,
+.explain-shell .surface-in,
+.intel-panel-shell .surface-in {
+  padding: 7px;
+}
+
+.est-shell,
+.rule-shell,
+.workspace-shell,
+.customs-shell,
+.explain-shell,
+.intel-panel-shell {
+  background: var(--surface-inset);
+  border-color: var(--line-soft);
+  box-shadow: var(--sh-2);
+  padding: 0;
+}
+
+.est-unit {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-sm);
+  color: var(--text-soft);
+  letter-spacing: -0.02em;
+}
+
+/* ---- Cost per shipment ------------------------------------------------- */
+
+.unit-cost {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.unit-cost-in {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 1rem + 4vw, 4.5rem);
+  align-items: center;
+}
+
+.unit-cost-copy h2 {
+  max-width: 17ch;
+  margin-bottom: 0.9rem;
+}
+
+.unit-cost-chart {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.unit-cost-note {
+  font-size: var(--t-xs);
+  color: var(--text-mute);
+}
+
+/* ---- Partner workspace chart ------------------------------------------- */
+
+.workspace-chart {
+  display: grid;
+  gap: 0.5rem;
+  padding-block: 0.5rem 1rem;
+}
+
+/* ---- Integrations reach ------------------------------------------------ */
+
+.dir-reach {
+  font-size: var(--t-sm);
+  color: var(--text-soft);
+  margin-top: 0.35rem;
+}
+
+.dir-reach .ticker {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ---- Plan cards lift ---------------------------------------------------- */
+
+.plan-in {
+  transition:
+    background-color var(--d-hover) ease,
+    transform var(--d-panel) var(--ease-out),
+    box-shadow var(--d-panel) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .plan-in:hover {
+    background: var(--surface);
+    transform: translateY(-4px);
+    box-shadow: var(--sh-3);
+    border-radius: var(--r-lg);
+  }
+}
+
+@media (max-width: 900px) {
+  .unit-cost-in {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

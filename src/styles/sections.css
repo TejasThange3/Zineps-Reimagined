@@ -1,0 +1,446 @@
+/* ==========================================================================
+   Home page sections
+   ========================================================================== */
+
+/* The lazy page resolves a frame or two after the shell paints. Reserving a
+   full viewport keeps the footer below the fold until the real content
+   arrives, so growing into place is not a visible layout shift. */
+.route-wait {
+  min-height: 100vh;
+}
+
+/* ---- Carrier wall -------------------------------------------------------
+   The only marquee on the site.                                           */
+
+.wall {
+  padding-block: clamp(2rem, 1.5rem + 2vw, 3.25rem);
+  border-block: 1px solid var(--line);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.wall-caption {
+  font-size: var(--t-xs);
+  color: var(--text-mute);
+  margin-bottom: 1.75rem;
+}
+
+.wall-track {
+  position: relative;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+.wall-run {
+  display: flex;
+  width: max-content;
+  animation: wall-slide 64s linear infinite;
+}
+
+.wall-run ul {
+  display: flex;
+  align-items: center;
+  gap: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  padding-inline: clamp(1.25rem, 0.75rem + 1.5vw, 2.25rem);
+}
+
+.wall-run li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  flex: none;
+}
+
+/* Marks are painted through their own alpha, so one colour drives the whole
+   wall and dark mode needs no separate asset. */
+.mark {
+  display: block;
+  flex: none;
+  width: var(--mark-w);
+  height: var(--mark-h);
+  object-fit: contain;
+  transition:
+    opacity var(--d-hover) ease,
+    transform var(--d-hover) var(--ease-out);
+}
+
+/* ---- Chips -------------------------------------------------------------
+   Most of these marks are dark by design, so on a dark page they need
+   something to sit on. The chip is transparent in light mode and a light
+   plate in dark mode, which keeps every brand colour true in both.       */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-sm);
+  transition:
+    background-color var(--d-hover) ease,
+    box-shadow var(--d-hover) ease,
+    transform var(--d-hover) var(--ease-out);
+}
+
+/* Every chip gets the same plate. Giving only the dark marks one leaves the
+   wall looking half-finished, and the point of the plate is that the row
+   reads as a single consistent object. */
+:root[data-theme="dark"] .chip {
+  padding: 0.55rem 0.8rem;
+  background: rgba(252, 253, 252, 0.95);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6),
+    0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.wall-run li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  flex: none;
+}
+
+.wall-run .mark {
+  opacity: 0.94;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .wall-run li:hover .chip {
+    transform: scale(1.05);
+  }
+  :root[data-theme="dark"] .wall-run li:hover .chip {
+    background: #fff;
+  }
+  .wall-run li:hover .mark {
+    opacity: 1;
+  }
+}
+
+@keyframes wall-slide {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wall-run {
+    animation: none;
+  }
+  .wall-track {
+    overflow-x: auto;
+  }
+}
+
+/* ---- Audiences ---------------------------------------------------------- */
+
+.aud {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.aud-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-bottom: clamp(2rem, 1.5rem + 2vw, 3.25rem);
+  border-bottom: 1px solid var(--line);
+}
+
+
+.aud-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+  padding-top: clamp(2rem, 1.5rem + 2vw, 3.25rem);
+  align-items: start;
+}
+
+.aud-copy {
+  display: grid;
+  gap: 1.1rem;
+  justify-items: start;
+}
+
+.aud-copy h3 {
+  max-width: 18ch;
+}
+
+.aud-who {
+  font-size: var(--t-xs);
+  color: var(--text-faint);
+}
+
+.aud-points {
+  display: grid;
+}
+
+.aud-points li {
+  padding-block: 0.95rem;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--t-sm);
+  color: var(--text-soft);
+}
+
+.aud-points li:first-child {
+  border-top: 1px solid var(--line);
+}
+
+/* ---- Intelligence ------------------------------------------------------- */
+
+.intel-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(2.5rem, 1rem + 4vw, 5rem);
+  align-items: center;
+}
+
+.intel-copy {
+  display: grid;
+  gap: 1.15rem;
+  justify-items: start;
+}
+
+
+.intel-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.intel-list li {
+  position: relative;
+  padding-left: 1.15rem;
+  font-size: var(--t-sm);
+  color: var(--text-soft);
+}
+
+.intel-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 5px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.intel-panel {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.intel-panel-shell {
+  padding: 7px;
+  background: var(--surface-inset);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-xl);
+}
+
+.intel-panel-core {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--r-xl) - 7px);
+  padding: clamp(1.1rem, 0.9rem + 0.8vw, 1.6rem);
+  box-shadow: var(--sh-2);
+}
+
+.intel-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: var(--t-micro);
+  letter-spacing: 0.08em;
+  color: var(--text-mute);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.intel-panel-window {
+  color: var(--text-faint);
+}
+
+.intel-bars {
+  display: grid;
+}
+
+.intel-bars li {
+  padding-block: 1.05rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.intel-bar-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.55rem;
+}
+
+.intel-bar-name {
+  display: grid;
+  gap: 0.1rem;
+  font-size: var(--t-sm);
+  font-weight: 500;
+}
+
+.intel-bar-name em {
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--t-micro);
+  color: var(--text-mute);
+}
+
+.intel-bar-value {
+  font-size: 0.9375rem;
+  letter-spacing: -0.03em;
+}
+
+.intel-bar-track {
+  height: 3px;
+  border-radius: var(--r-pill);
+  background: var(--line);
+  overflow: hidden;
+}
+
+.intel-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--text-faint);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 900ms var(--ease-soft);
+}
+
+.intel-bars li[data-state="picked"] .intel-bar-fill {
+  background: var(--accent);
+}
+.intel-bars li[data-state="picked"] .intel-bar-value {
+  color: var(--accent-text);
+}
+.intel-bars li[data-state="flagged"] .intel-bar-fill {
+  background: var(--text-faint);
+  opacity: 0.55;
+}
+.intel-bars li[data-state="flagged"] .intel-bar-name {
+  color: var(--text-mute);
+}
+
+.intel-bar-note {
+  font-size: var(--t-micro);
+  color: var(--text-faint);
+  margin-top: 0.45rem;
+}
+
+.intel-verdict {
+  font-size: var(--t-sm);
+  line-height: 1.5;
+  color: var(--text-soft);
+  padding-top: 1.1rem;
+  max-width: 44ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intel-bar-fill {
+    transition: none;
+  }
+}
+
+/*PLACEHOLDER*/
+
+/* ---- FAQ ---------------------------------------------------------------- */
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+  align-items: start;
+}
+
+.faq-side h2 {
+  max-width: 14ch;
+}
+
+.faq-aside {
+  margin-top: 1.25rem;
+  font-size: var(--t-sm);
+  color: var(--text-mute);
+}
+
+/* ---- Closing ------------------------------------------------------------ */
+
+.closing {
+  border-top: 1px solid var(--line);
+  padding-block: clamp(4rem, 3rem + 4vw, 6.5rem);
+}
+
+.closing-in {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.closing-copy h2 {
+  max-width: 17ch;
+  margin-bottom: 0.9rem;
+}
+
+.closing-copy .lead {
+  max-width: 46ch;
+}
+
+.closing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 1000px) {
+  .intel-grid,
+  .faq-grid,
+  .aud-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .intel-copy h2,
+  .faq-side h2,
+  .aud-copy h3 {
+    max-width: 24ch;
+  }
+  .dev-points {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dev-points li {
+    padding: 1.35rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .dev-points li + li {
+    border-left: 0;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .closing-copy h2 br {
+    display: none;
+  }
+}

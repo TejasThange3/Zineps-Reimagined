@@ -1,0 +1,579 @@
+/* ==========================================================================
+   Rate console
+
+   An outer tray holding an inner surface, with concentric radii so the two
+   curves stay parallel. It reads as an instrument rather than a card.
+   ========================================================================== */
+
+.console {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.console-shell {
+  padding: 7px;
+  background: color-mix(in srgb, var(--surface) 62%, transparent);
+  border-color: var(--line-soft);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-4);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.console-core {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--r-xl) - 7px);
+  overflow: hidden;
+}
+
+/* ---- Lane map ----------------------------------------------------------- */
+
+.console-map {
+  position: relative;
+  background: var(--surface-inset);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.console-map::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 55%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--surface-inset) 12%,
+    color-mix(in srgb, var(--surface-inset) 60%, transparent) 55%,
+    transparent
+  );
+}
+
+.lanemap {
+  height: clamp(9rem, 7rem + 6vw, 12rem);
+  overflow: hidden;
+}
+
+.lanemap svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.lanemap-dots {
+  fill: var(--text);
+  opacity: 0.16;
+}
+
+:root[data-theme="dark"] .lanemap-dots {
+  opacity: 0.22;
+}
+
+.lanemap-context circle {
+  fill: var(--text-faint);
+  opacity: 0.55;
+}
+
+.lanemap-arc-ghost,
+.lanemap-arc {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.lanemap-arc-ghost {
+  stroke: var(--accent);
+  stroke-width: calc(1.6 * var(--s, 1));
+  opacity: 0.18;
+}
+
+.lanemap-arc {
+  stroke: var(--accent);
+  stroke-width: calc(0.55 * var(--s, 1));
+  stroke-dasharray: 420;
+  stroke-dashoffset: 420;
+  animation: lanemap-draw 900ms var(--ease-soft) forwards;
+}
+
+@keyframes lanemap-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.lanemap-parcel {
+  fill: var(--accent);
+  offset-rotate: 0deg;
+  opacity: 0;
+  animation: lanemap-run 3.2s var(--ease-soft) 700ms infinite;
+  filter: drop-shadow(
+    0 0 2px color-mix(in srgb, var(--accent) 60%, transparent)
+  );
+}
+
+@keyframes lanemap-run {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+.lanemap-end {
+  fill: var(--accent);
+  stroke: var(--surface-inset);
+  stroke-width: calc(0.5 * var(--s, 1));
+}
+
+.lanemap-pulse {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: calc(0.35 * var(--s, 1));
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: lanemap-pulse 2.8s ease-out infinite;
+}
+
+@keyframes lanemap-pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.9;
+  }
+  70%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.lanemap-labels text {
+  font-family: var(--font-mono);
+  font-size: calc(2.1px * var(--s, 1));
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  fill: var(--text);
+  paint-order: stroke;
+  stroke: var(--surface-inset);
+  stroke-width: calc(0.7px * var(--s, 1));
+  stroke-linejoin: round;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lanemap-arc {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .lanemap-parcel,
+  .lanemap-pulse {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ---- Overlay: lane picker and parcel spec ------------------------------- */
+
+.console-overlay {
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  pointer-events: none;
+}
+
+.console-lane {
+  position: relative;
+  pointer-events: auto;
+}
+
+/* The native select sits invisibly over the styled route, so the control
+   keeps full keyboard and platform behaviour. */
+.console-select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.console-route {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--r-pill);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  letter-spacing: -0.014em;
+  transition:
+    border-color var(--d-hover) ease,
+    background-color var(--d-hover) ease;
+}
+
+.console-arrow {
+  width: 20px;
+  height: 1px;
+  background: var(--accent);
+  position: relative;
+  flex: none;
+}
+
+.console-arrow::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.console-chev {
+  color: var(--text-faint);
+  margin-left: 0.1rem;
+}
+
+.console-lane:hover .console-route,
+.console-select:focus-visible + .console-route {
+  background: var(--surface-inset);
+}
+
+.console-select:focus-visible + .console-route {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.console-spec {
+  display: flex;
+  gap: 1.1rem;
+  margin: 0;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.console-spec div {
+  display: grid;
+  gap: 0.05rem;
+}
+
+.console-spec dt {
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-label);
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+}
+
+.console-spec dd {
+  margin: 0;
+  font-size: var(--t-xs);
+  color: var(--text-soft);
+}
+
+/* ---- Priority ----------------------------------------------------------- */
+
+.console-priority {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.console-priority-label {
+  font-size: var(--t-xs);
+  color: var(--text-soft);
+  font-weight: 480;
+}
+
+/* ---- Rows --------------------------------------------------------------- */
+
+.console-rows {
+  display: grid;
+}
+
+.console-row {
+  display: grid;
+  grid-template-columns: 1.4rem minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.72rem 1rem;
+  position: relative;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.console-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 5px;
+  bottom: 5px;
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background: var(--accent);
+  transform: scaleY(0);
+  transition: transform var(--d-pop) var(--ease-out);
+}
+
+.console-row[data-match]::before {
+  transform: scaleY(1);
+}
+
+.console-row[data-match] {
+  background: var(--accent-faint);
+}
+
+.console-rank {
+  font-size: var(--t-xs);
+  color: var(--text-faint);
+}
+
+.console-row[data-match] .console-rank {
+  color: var(--accent-text);
+}
+
+.console-service {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.console-service b {
+  font-size: var(--t-sm);
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.console-service em {
+  font-style: normal;
+  font-size: var(--t-micro);
+  color: var(--text-mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.console-days {
+  font-size: var(--t-xs);
+  color: var(--text-soft);
+}
+
+.console-days i {
+  font-style: normal;
+  font-size: var(--t-micro);
+  color: var(--text-faint);
+}
+
+.console-price {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.026em;
+  min-width: 4.25rem;
+  text-align: right;
+}
+
+/* ---- Verdict ------------------------------------------------------------ */
+
+.console-foot {
+  padding: 0.8rem 1rem;
+  min-height: 3.5rem;
+  display: flex;
+  align-items: center;
+  background: var(--surface-2);
+}
+
+.console-verdict {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
+
+.console-verdict-text {
+  font-size: var(--t-xs);
+  line-height: 1.45;
+  color: var(--text-soft);
+}
+
+.console-verdict-text b {
+  color: var(--text);
+  font-weight: 540;
+}
+
+.console-saving {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  flex: none;
+  padding: 0.22rem 0.55rem;
+  border-radius: var(--r-sm);
+  background: var(--accent-faint);
+  border: 1px solid var(--accent-line);
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.console-saving i {
+  font-style: normal;
+  font-size: var(--t-micro);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  opacity: 0.8;
+}
+
+.console-note {
+  font-size: var(--t-micro);
+  color: var(--text-faint);
+  padding-inline: 0.5rem;
+}
+
+/* ---- Responsive --------------------------------------------------------- */
+
+@media (max-width: 560px) {
+  .console-overlay {
+    padding: 0.6rem 0.65rem;
+  }
+  .console-spec {
+    gap: 0.75rem;
+  }
+  .console-priority {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+  .console-row {
+    grid-template-columns: 1.25rem minmax(0, 1fr) auto;
+    row-gap: 0.3rem;
+  }
+  .console-days {
+    grid-column: 2;
+  }
+  .console-price {
+    grid-row: 1;
+    grid-column: 3;
+  }
+  .console-verdict {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+/* ---- Lane picker ---------------------------------------------------------
+   The dropdown alone hid thirty-six routes behind what looked like a static
+   label. Stepping and a count make the set visible without opening it.     */
+
+.console-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 3px;
+  padding-right: 0.55rem;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  border: 1px solid var(--line);
+  box-shadow: var(--sh-1);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  pointer-events: auto;
+}
+
+.console-step {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  border-radius: var(--r-pill);
+  color: var(--text-mute);
+  transition:
+    background-color var(--d-hover) ease,
+    color var(--d-hover) ease,
+    transform var(--d-press) var(--ease-out);
+}
+
+.console-step:active {
+  transform: scale(0.92);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .console-step:hover {
+    background: var(--surface-inset);
+    color: var(--text);
+  }
+}
+
+.console-count {
+  font-size: var(--t-micro);
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+  flex: none;
+}
+
+/* The lane map is draggable, so it must say so. A grab cursor on the panel,
+   a closed hand while the pointer is down, and touch-action none so a drag on
+   a phone pans the map instead of scrolling the page away from it. */
+.lanemap svg {
+  cursor: grab;
+  touch-action: none;
+}
+
+.lanemap[data-dragging] svg {
+  cursor: grabbing;
+}
+
+/* While dragging, the arc's draw-in and the parcel's run would fight the
+   pan for attention, so they hold still. */
+.lanemap[data-dragging] .lanemap-parcel,
+.lanemap[data-dragging] .lanemap-pulse {
+  animation-play-state: paused;
+}
+
+/* A quiet hint, shown until the map has been dragged once. */
+.lanemap {
+  position: relative;
+}
+
+.lanemap-hint {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--text-faint);
+  pointer-events: none;
+  transition: opacity var(--d-pop) var(--ease-out);
+}
+
+.lanemap[data-dragging] .lanemap-hint,
+.lanemap[data-touched] .lanemap-hint {
+  opacity: 0;
+}

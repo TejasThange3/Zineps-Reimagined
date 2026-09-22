@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f7f6" />
+    <meta
+      name="description"
+      content="Zineps puts one dashboard and one API across 80+ carriers. Ship on rates negotiated by logistics partners, your own carrier contracts, or both."
+    />
+    <meta property="og:title" content="Zineps | Shipping infrastructure for e-commerce and logistics" />
+    <meta
+      property="og:description"
+      content="Ship on contracts you could not negotiate alone. One dashboard and one API across 80+ carriers."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/assets/social-preview.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/assets/brand/logo.svg" type="image/svg+xml" />
+    <title>Zineps | Shipping infrastructure for e-commerce and logistics</title>
+    <script>
+      // Resolve the theme before first paint so there is no flash of the
+      // wrong appearance on load.
+      (function () {
+        try {
+          var stored = localStorage.getItem("zineps-theme");
+          var dark =
+            stored === "dark" ||
+            (!stored &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+          if (dark)
+            document
+              .querySelector('meta[name="theme-color"]')
+              .setAttribute("content", "#0b0f0e");
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      This redesign concept needs JavaScript for its interactive demos. The
+      official product lives at
+      <a href="https://www.zineps.com/">zineps.com</a>.
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

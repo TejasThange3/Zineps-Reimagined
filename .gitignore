@@ -1,0 +1,69 @@
+# Dependencies and generated builds
+node_modules/
+/dist/
+/build/
+*.tsbuildinfo
+.vite/
+.cache/
+
+# Automated test output and performance reports
+/test-results/
+/playwright-report/
+/blob-report/
+/coverage/
+/docs/screenshots/
+/docs/refinement-qa/
+/docs/layout-checks.json
+/docs/revision-breakpoints.json
+/docs/revision-qa.json
+/docs/lighthouse-*.report.*
+
+# Local reference screenshots, downloaded website sources, and design brief
+/SS/
+/current site ss/
+/docs/reference/
+/docs/reference-sheets/
+/master prompt.md
+
+# Local environment values (keep shareable example templates)
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+/tmp/
+/temp/
+
+# Machine-specific tools and editor settings
+/.codex/
+/.idea/
+/.vscode/
+/playwright.local.config.ts
+.eslintcache
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Keep src/, public/ (including logos and images), scripts/, tests/,
+# package-lock.json, project configuration, and Markdown documentation.
+# These support building, maintaining, and reproducing the website.
+
+# HyperFrames video project: generated captures, render segments, and a
+# node_modules symlink created for the render toolchain. ~740MB of
+# reproducible build output, not source.
+/videos/
+
+# Local screenshot/verification output and reference decks not needed to
+# build or maintain the site.
+/shots/
+/docs/shots/
+/gpt site ss/

@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Metric-matched fallbacks
+
+   Geist is preloaded, but on a cold visit the first paint still uses a local
+   font and then swaps. Left alone that swap moved the whole document and cost
+   roughly 0.10 of cumulative layout shift, because Geist and Arial do not
+   occupy the same space.
+
+   These faces describe a local font scaled to Geist's own metrics, so the
+   fallback takes exactly the same room. The swap then changes the letterforms
+   and nothing else.
+
+   Figures are derived from the shipped woff2 files with fontkit:
+   Geist and Geist Mono both have unitsPerEm 1000, ascent 1005, descent -295,
+   x-height 530. size-adjust is the ratio of x-height to the fallback's, and
+   the ascent and descent overrides are divided by that adjustment.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Geist Fallback";
+  src:
+    local("Arial"),
+    local("Helvetica Neue"),
+    local("Liberation Sans");
+  size-adjust: 102.21%;
+  ascent-override: 98.33%;
+  descent-override: 28.86%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Geist Mono Fallback";
+  src:
+    local("Courier New"),
+    local("Liberation Mono");
+  size-adjust: 125.34%;
+  ascent-override: 80.18%;
+  descent-override: 23.54%;
+  line-gap-override: 0%;
+}

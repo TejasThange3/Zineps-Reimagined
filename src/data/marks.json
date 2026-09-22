@@ -1,0 +1,162 @@
+{
+  "dhl": {
+    "ratio": 6.667,
+    "lift": false,
+    "lum": 0.785
+  },
+  "postnl": {
+    "ratio": 1.015,
+    "lift": false,
+    "lum": 0.618
+  },
+  "dpd": {
+    "ratio": 0.86,
+    "lift": true,
+    "lum": 0.198
+  },
+  "ups": {
+    "ratio": 0.85,
+    "lift": true,
+    "lum": 0.029
+  },
+  "fedex": {
+    "ratio": 3.571,
+    "lift": true,
+    "lum": 0.16
+  },
+  "gls": {
+    "ratio": 2.917,
+    "lift": true,
+    "lum": 0.162
+  },
+  "bpost": {
+    "ratio": 1.809,
+    "lift": true,
+    "lum": 0.26
+  },
+  "correos": {
+    "ratio": 1.285,
+    "lift": true,
+    "lum": 0.035
+  },
+  "dbschenker": {
+    "ratio": 1.42,
+    "lift": false,
+    "lum": 0.982
+  },
+  "shopify": {
+    "ratio": 0.88,
+    "lift": false,
+    "lum": 0.635
+  },
+  "woocommerce": {
+    "ratio": 4.878,
+    "lift": true,
+    "lum": 0.411
+  },
+  "magento": {
+    "ratio": 0.85,
+    "lift": false,
+    "lum": 0.501
+  },
+  "bol": {
+    "ratio": 2.525,
+    "lift": true,
+    "lum": 0.047
+  },
+  "amazon": {
+    "ratio": 0.965,
+    "lift": true,
+    "lum": 0.025
+  },
+  "lightspeed": {
+    "ratio": 4.357,
+    "lift": true,
+    "lum": 0.137
+  },
+  "kaufland": {
+    "ratio": 1,
+    "lift": true,
+    "lum": 0.219
+  },
+  "mirakl": {
+    "ratio": 4.5,
+    "lift": true,
+    "lum": 0.137
+  },
+  "picqer": {
+    "ratio": 4.2,
+    "lift": true,
+    "lum": 0.078
+  },
+  "prestashop": {
+    "ratio": 1.087,
+    "lift": true,
+    "lum": 0.215
+  },
+  "wix": {
+    "ratio": 2.564,
+    "lift": true,
+    "lum": 0.39
+  },
+  "odoo": {
+    "ratio": 3.125,
+    "lift": true,
+    "lum": 0.334
+  },
+  "exactonline": {
+    "ratio": 4.7,
+    "lift": true,
+    "lum": 0.171
+  },
+  "moneybird": {
+    "ratio": 4.215,
+    "lift": false,
+    "lum": 1
+  },
+  "snelstart": {
+    "ratio": 1,
+    "lift": true,
+    "lum": 0.001
+  },
+  "temu": {
+    "ratio": 1,
+    "lift": false,
+    "lum": 0.983
+  },
+  "mijnwebwinkel": {
+    "ratio": 1.605,
+    "lift": false,
+    "lum": 0.57
+  },
+  "ccvshop": {
+    "ratio": 1.563,
+    "lift": true,
+    "lum": 0.128
+  },
+  "channeldock": {
+    "ratio": 5.035,
+    "lift": true,
+    "lum": 0
+  },
+  "lyrawms": {
+    "ratio": 4.095,
+    "lift": true,
+    "lum": 0.21
+  },
+  "microsoftdynamics": {
+    "ratio": 3.624,
+    "lift": true,
+    "lum": 0.325
+  },
+  "goedgepickt": {
+    "ratio": 3.155,
+    "lift": true,
+    "lum": 0.292
+  },
+  "stockitup": {
+    "ratio": 0.901,
+    "lift": false,
+    "lum": 0.933
+  }
+}

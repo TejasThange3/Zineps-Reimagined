@@ -1,0 +1,412 @@
+/* ==========================================================================
+   Interactive components
+   ========================================================================== */
+
+/* ---- Buttons ------------------------------------------------------------
+   One shape system: pill for actions, --r-md for panels and inputs.       */
+
+.btn {
+  --btn-bg: var(--accent);
+  --btn-fg: #ffffff;
+  --btn-line: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  padding: 0.7rem 1.25rem;
+  border-radius: var(--r-pill);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: 1px solid var(--btn-line);
+  font-size: var(--t-sm);
+  font-weight: 520;
+  letter-spacing: -0.006em;
+  transition:
+    transform var(--d-press) var(--ease-out),
+    background-color var(--d-hover) ease,
+    border-color var(--d-hover) ease,
+    box-shadow var(--d-hover) ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-lg {
+  padding: 0.9rem 1.6rem;
+  font-size: var(--t-body);
+}
+
+/* Primary: deep teal, white text. */
+.btn-primary {
+  box-shadow: var(--sh-2);
+}
+:root[data-theme="dark"] .btn-primary {
+  --btn-fg: var(--ink-950);
+}
+
+/* Secondary: surface with a hairline. */
+.btn-ghost {
+  --btn-bg: var(--surface);
+  --btn-fg: var(--text);
+  --btn-line: var(--line-strong);
+  box-shadow: var(--sh-1);
+}
+
+/* Tertiary: no chrome at all. */
+.btn-bare {
+  --btn-bg: transparent;
+  --btn-fg: var(--text);
+  --btn-line: transparent;
+  padding-inline: 0.25rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    --btn-bg: var(--accent-hover);
+    box-shadow: var(--sh-3);
+  }
+  .btn-ghost:hover {
+    --btn-line: var(--text-faint);
+    background: var(--surface-2);
+  }
+  .btn-bare:hover {
+    --btn-bg: var(--surface-inset);
+  }
+}
+
+/* ---- Text links: underline grows from the left on hover ---------------- */
+
+.link {
+  display: inline;
+  position: relative;
+  color: var(--text);
+  font-weight: 480;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 calc(100% - 0.02em);
+  background-repeat: no-repeat;
+  transition: background-size var(--d-hover) var(--ease-out);
+}
+
+.link-accent {
+  color: var(--accent-text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* Links that sit permanently underlined, inside prose. */
+.link-static {
+  background-size: 100% 1px;
+  background-image: linear-gradient(var(--line-strong), var(--line-strong));
+}
+@media (hover: hover) and (pointer: fine) {
+  .link-static:hover {
+    background-image: linear-gradient(currentColor, currentColor);
+  }
+}
+
+/* ---- Surfaces -----------------------------------------------------------
+   Panels are used only where elevation means something. Most grouping is
+   done with hairlines and space instead.                                  */
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+
+.panel-raised {
+  box-shadow: var(--sh-3);
+}
+
+.panel-inset {
+  background: var(--surface-inset);
+  border-radius: var(--r-md);
+}
+
+/* ---- Tags and pills ---------------------------------------------------- */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--r-sm);
+  background: var(--surface-inset);
+  border: 1px solid var(--line-soft);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.tag-accent {
+  background: var(--accent-faint);
+  border-color: var(--accent-line);
+  color: var(--accent-text);
+}
+
+/* ---- Segmented control -------------------------------------------------
+   Used for the audience switch, pricing period and directory filters.     */
+
+/* The control scrolls rather than overflowing. A five-option filter is
+   510px wide, which is more than a phone has, and letting it push the page
+   sideways is worse than letting it scroll inside its own rail. */
+.seg-rail {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-block: 2px;
+}
+
+.seg-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.seg {
+  display: inline-flex;
+  position: relative;
+  padding: 3px;
+  background: var(--surface-inset);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+}
+
+.seg-btn {
+  position: relative;
+  z-index: 1;
+  padding: 0.45rem 1rem;
+  border-radius: var(--r-pill);
+  font-size: var(--t-sm);
+  font-weight: 480;
+  color: var(--text-mute);
+  white-space: nowrap;
+  transition:
+    color var(--d-hover) ease,
+    transform var(--d-press) var(--ease-out);
+}
+
+.seg-btn:active {
+  transform: scale(0.97);
+}
+
+.seg-btn[aria-pressed="true"],
+.seg-btn[aria-selected="true"] {
+  color: var(--text);
+}
+
+/* The travelling thumb sits behind the labels. */
+.seg-thumb {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  box-shadow: var(--sh-1);
+  transition:
+    transform var(--d-pop) var(--ease-out),
+    width var(--d-pop) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seg-thumb {
+    transition: none;
+  }
+}
+
+/* ---- Form fields -------------------------------------------------------- */
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.field > label {
+  font-size: var(--t-xs);
+  font-weight: 500;
+  color: var(--text-soft);
+}
+
+.field .hint {
+  font-size: var(--t-xs);
+  color: var(--text-mute);
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-md);
+  font-size: var(--t-sm);
+  color: var(--text);
+  transition:
+    border-color var(--d-hover) ease,
+    box-shadow var(--d-hover) ease;
+}
+
+.input::placeholder {
+  color: var(--text-mute);
+}
+
+.input:focus-visible,
+.select:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-faint);
+}
+
+/* ---- Range slider ------------------------------------------------------- */
+
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 22px;
+  background: transparent;
+  cursor: grab;
+}
+
+.range:active {
+  cursor: grabbing;
+}
+
+.range::-webkit-slider-thumb {
+  cursor: grab;
+}
+.range:active::-webkit-slider-thumb {
+  cursor: grabbing;
+}
+.range::-moz-range-thumb {
+  cursor: grab;
+}
+
+.range::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(
+    to right,
+    var(--accent) var(--fill, 0%),
+    var(--line) var(--fill, 0%)
+  );
+}
+.range::-moz-range-track {
+  height: 3px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(
+    to right,
+    var(--accent) var(--fill, 0%),
+    var(--line) var(--fill, 0%)
+  );
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -7.5px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--sh-2);
+  transition: transform var(--d-press) var(--ease-out);
+}
+.range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: var(--sh-2);
+}
+.range:active::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+
+/* ---- Disclosure rows, used by the FAQ and spec groups ------------------- */
+
+.disclosure {
+  border-top: 1px solid var(--line);
+}
+
+.disclosure:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.disclosure-trigger {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  padding: 1.35rem 0;
+  text-align: left;
+  font-size: clamp(1rem, 0.94rem + 0.28vw, 1.15rem);
+  font-weight: 480;
+  letter-spacing: -0.016em;
+  transition: color var(--d-hover) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .disclosure-trigger:hover {
+    color: var(--accent-text);
+  }
+}
+
+.disclosure-mark {
+  margin-left: auto;
+  flex: none;
+  position: relative;
+  width: 12px;
+  height: 12px;
+  color: var(--text-mute);
+}
+.disclosure-mark::before,
+.disclosure-mark::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto 0;
+  height: 1px;
+  background: currentColor;
+  transition: transform var(--d-pop) var(--ease-out);
+}
+.disclosure-mark::after {
+  transform: rotate(90deg);
+}
+[aria-expanded="true"] .disclosure-mark::after {
+  transform: rotate(0deg);
+}
+
+.disclosure-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--d-panel) var(--ease-out);
+}
+.disclosure-body[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.disclosure-body > div {
+  overflow: hidden;
+}
+.disclosure-body p {
+  padding-bottom: 1.6rem;
+  max-width: 62ch;
+  color: var(--text-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .disclosure-body {
+    transition: none;
+  }
+}

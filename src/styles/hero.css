@@ -1,0 +1,97 @@
+/* ==========================================================================
+   Hero and rate console
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  padding-block: clamp(3rem, 1.5rem + 4vw, 5.5rem)
+    clamp(3.5rem, 2rem + 5vw, 7rem);
+  overflow: clip;
+}
+
+/* A single soft wash carrying the brand mint. No mesh, no blobs. */
+.hero-wash {
+  position: absolute;
+  inset: -30% -8% -12%;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      62% 48% at 78% 16%,
+      color-mix(in srgb, var(--mint-400) 26%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      52% 44% at 8% 2%,
+      color-mix(in srgb, var(--mint-300) 14%, transparent),
+      transparent 74%
+    );
+  opacity: 0.9;
+  mask-image: linear-gradient(to bottom, #000 58%, transparent 96%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent 96%);
+}
+
+:root[data-theme="dark"] .hero-wash {
+  opacity: 0.4;
+}
+
+.hero-in {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+  gap: clamp(2.5rem, 1rem + 4vw, 5rem);
+  align-items: center;
+  min-height: min(66vh, 33rem);
+}
+
+.hero-copy {
+  display: grid;
+  gap: 1.5rem;
+  justify-items: start;
+  /* The title sizes against this column, not the viewport. */
+  container-type: inline-size;
+}
+
+.hero-title {
+  /* cqi, not vw: the copy column is a grid fraction, so between 1100 and
+     1280 a viewport-based size outgrew the track and the second authored
+     line wrapped. 8.6cqi keeps the longest line just inside the column at
+     every width, which is what stops the heading ragging. */
+  font-size: clamp(2.375rem, 8.6cqi, 3.625rem);
+  line-height: 1.04;
+  letter-spacing: -0.042em;
+  font-weight: 560;
+  margin: 0;
+}
+
+.hero-lead {
+  font-size: var(--t-lead);
+  line-height: 1.5;
+  color: var(--text-soft);
+  max-width: 42ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.25rem;
+}
+
+/* ---- Hero responsive ---------------------------------------------------- */
+
+@media (max-width: 1080px) {
+  .hero-in {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+  .hero-lead {
+    max-width: 52ch;
+  }
+  /* handled by .br-wide */
+}
+
+@media (max-width: 560px) {
+  .hero-title {
+    max-width: none;
+  }
+}
