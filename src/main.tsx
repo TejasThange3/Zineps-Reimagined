@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
+import { installSpotlight } from "./lib/spotlight";
 import "@fontsource-variable/geist";
 import "@fontsource-variable/geist-mono";
 import "./styles/fonts.css";
@@ -13,6 +14,8 @@ import "./styles/code.css";
 import "./styles/sections.css";
 import "./styles/home.css";
 import "./styles/pages.css";
+import "./styles/intro-art.css";
+import "./styles/command.css";
 import "./styles/panels.css";
 import "./styles/editorial.css";
 import "./styles/effects.css";
@@ -30,3 +33,5 @@ const tree = (
 // createRoot branch covers the dev server, where nothing is prerendered.
 if (root.firstElementChild) hydrateRoot(root, tree);
 else createRoot(root).render(tree);
+
+installSpotlight();

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { optical } from "../lib/optical";
 import { PageIntro } from "../components/PageIntro";
+import { KnowledgeArt } from "../components/IntroArt";
+import { openCommandMenu } from "../components/CommandMenu";
 import { Closing } from "../components/Closing";
 import { Reveal } from "../components/Reveal";
 import { Surface } from "../components/Surface";
@@ -195,6 +197,16 @@ export default function Knowledge() {
     <>
       <PageIntro
         title={["How it works, written down."]}
+        aside={
+          <button
+            type="button"
+            className="ia-trigger"
+            onClick={openCommandMenu}
+            aria-label="Search the docs"
+          >
+            <KnowledgeArt />
+          </button>
+        }
         lead="Setup, rules, returns, customs and the API. The reference material for people who would rather read than open a ticket."
         actions={
           <Segmented

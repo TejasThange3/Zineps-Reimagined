@@ -364,3 +364,48 @@
     aspect-ratio: 16 / 9;
   }
 }
+
+/* ---- Grid that never strands a card -----------------------------------
+   auto-fill left the fifth article alone on its own row. Six tracks let a
+   row hold either three cards (span 2) or two (span 3), and the counts
+   below pick whichever leaves every row full: 5 → 2 + 3, 4 → 2 + 2,
+   2 → 2, 1 → 1. Filtering changes the count, so this is count-aware
+   rather than hard-wired to five. */
+
+@media (min-width: 900px) {
+  .jrn-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .jrn-grid > li {
+    grid-column: span 2;
+  }
+
+  /* 3n + 2 items: the first row takes two wide cards. */
+  .jrn-grid > li:first-child:nth-last-child(3n + 2),
+  .jrn-grid > li:first-child:nth-last-child(3n + 2) + li {
+    grid-column: span 3;
+  }
+
+  /* Exactly four: two rows of two. */
+  .jrn-grid > li:first-child:nth-last-child(4),
+  .jrn-grid > li:first-child:nth-last-child(4) ~ li {
+    grid-column: span 3;
+  }
+
+  /* One on its own takes the row. */
+  .jrn-grid > li:only-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .jrn-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* An odd count leaves the first card to lead the pair beneath it. */
+  .jrn-grid > li:first-child:nth-last-child(odd) {
+    grid-column: 1 / -1;
+  }
+}

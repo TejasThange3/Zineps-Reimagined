@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { useRoute } from "./lib/router";
+import { CommandMenu } from "./components/CommandMenu";
 import { Home } from "./pages/Home";
 import Shipping from "./pages/Shipping";
 import Partners from "./pages/Partners";
@@ -49,7 +50,23 @@ function View({ path }: { path: string }) {
 }
 
 export default function App({ ssrPath }: { ssrPath?: string }) {
-  const { path } = useRoute(ssrPath);
+  const { path, go } = useRoute(ssrPath);
+
+  /* The palette's targets can carry a fragment (a help section, a directory
+     tile). Navigate first, then bring the target into view once the page
+     transition has settled, and mark it briefly so the eye lands on it. */
+  const navigate = (href: string) => {
+    const url = new URL(href, location.origin);
+    go(url.pathname, false, url.hash);
+    if (!url.hash) return;
+    window.setTimeout(() => {
+      const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+      if (!target) return;
+      target.scrollIntoView({ block: "center", behavior: "smooth" });
+      target.setAttribute("data-flash", "");
+      window.setTimeout(() => target.removeAttribute("data-flash"), 1600);
+    }, 340);
+  };
 
   useEffect(() => {
     const title = titles[path];
@@ -67,6 +84,7 @@ export default function App({ ssrPath }: { ssrPath?: string }) {
         <View path={path} />
       </main>
       <Footer />
+      <CommandMenu onNavigate={navigate} />
     </>
   );
 }

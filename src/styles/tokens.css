@@ -135,7 +135,11 @@
 /* ==========================================================================
    Dark theme. Same hierarchy, same accent identity, re-weighted for emission.
    ========================================================================== */
-:root[data-theme="dark"] {
+/* The same set is lent to the header while it sits over a band that is dark
+   in both themes, such as the network section, so it never turns into a
+   grey light-glass smear on top of near-black. */
+:root[data-theme="dark"],
+:root:not([data-theme="dark"]) .hdr[data-over="deep"] {
   --bg: #0b0f0e;
   --bg-sunken: #080b0a;
   --surface: #121917;

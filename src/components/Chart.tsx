@@ -139,13 +139,24 @@ export function BarChart({
   values,
   labels,
   label,
+  format,
+  emphasis = "peak",
 }: {
   values: number[];
   labels: string[];
   label: string;
+  /** Prints each value above its bar. Omit for an unlabelled chart. */
+  format?: (value: number) => string;
+  /**
+   * Which bar carries the accent. "peak" suits a chart about growth; "low"
+   * suits one about cost falling, where the payoff is the shortest bar.
+   */
+  emphasis?: "peak" | "low";
 }) {
   const { ref, live } = useInView<HTMLDivElement>();
   const max = Math.max(...values);
+  const paid = values.filter((v) => v > 0);
+  const target = emphasis === "low" ? Math.min(...paid) : max;
   const innerW = W - PAD.left - PAD.right;
   const innerH = H - PAD.top - PAD.bottom;
   const slot = innerW / values.length;
@@ -163,18 +174,33 @@ export function BarChart({
           />
         </g>
         {values.map((v, i) => {
-          const h = (v / max) * innerH;
+          // A zero still gets a visible stub: an empty slot reads as missing
+          // data, not as "costs nothing".
+          const h = v > 0 ? (v / max) * innerH : 1.5;
+          const x = PAD.left + i * slot + (slot - barW) / 2;
+          const y = H - PAD.bottom - h;
+          const accent = v === target;
           return (
-            <rect
-              key={labels[i]}
-              className={`chart-bar ${v === max ? "chart-bar-peak" : ""}`}
-              x={PAD.left + i * slot + (slot - barW) / 2}
-              y={H - PAD.bottom - h}
-              width={barW}
-              height={h}
-              rx="2"
-              style={{ "--i": i } as React.CSSProperties}
-            />
+            <g key={labels[i]} style={{ "--i": i } as React.CSSProperties}>
+              <rect
+                className={`chart-bar ${accent ? "chart-bar-peak" : ""} ${v === 0 ? "chart-bar-zero" : ""}`}
+                x={x}
+                y={y}
+                width={barW}
+                height={h}
+                rx={v > 0 ? 2 : 0.75}
+              />
+              {format ? (
+                <text
+                  className={`chart-value ${accent ? "chart-value-peak" : ""}`}
+                  x={x + barW / 2}
+                  y={y - 4}
+                  textAnchor="middle"
+                >
+                  {format(v)}
+                </text>
+              ) : null}
+            </g>
           );
         })}
         <g className="chart-axis">

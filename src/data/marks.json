@@ -5,9 +5,9 @@
     "lum": 0.785
   },
   "postnl": {
-    "ratio": 1.015,
+    "ratio": 1.016,
     "lift": false,
-    "lum": 0.618
+    "lum": 0.409
   },
   "dpd": {
     "ratio": 0.86,
@@ -35,14 +35,14 @@
     "lum": 0.26
   },
   "correos": {
-    "ratio": 1.285,
-    "lift": true,
-    "lum": 0.035
+    "ratio": 1.281,
+    "lift": false,
+    "lum": 0.601
   },
   "dbschenker": {
-    "ratio": 1.42,
+    "ratio": 1.417,
     "lift": false,
-    "lum": 0.982
+    "lum": 0.47
   },
   "shopify": {
     "ratio": 0.88,
@@ -65,9 +65,9 @@
     "lum": 0.047
   },
   "amazon": {
-    "ratio": 0.965,
+    "ratio": 3.302,
     "lift": true,
-    "lum": 0.025
+    "lum": 0.091
   },
   "lightspeed": {
     "ratio": 4.357,
@@ -110,19 +110,19 @@
     "lum": 0.171
   },
   "moneybird": {
-    "ratio": 4.215,
+    "ratio": 4.219,
     "lift": false,
-    "lum": 1
+    "lum": 0.348
   },
   "snelstart": {
     "ratio": 1,
-    "lift": true,
-    "lum": 0.001
+    "lift": false,
+    "lum": 0.378
   },
   "temu": {
     "ratio": 1,
     "lift": false,
-    "lum": 0.983
+    "lum": 0.43
   },
   "mijnwebwinkel": {
     "ratio": 1.605,
@@ -155,8 +155,8 @@
     "lum": 0.292
   },
   "stockitup": {
-    "ratio": 0.901,
-    "lift": false,
-    "lum": 0.933
+    "ratio": 1,
+    "lift": true,
+    "lum": 0.124
   }
 }

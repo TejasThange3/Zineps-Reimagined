@@ -1,8 +1,8 @@
 import { PageIntro } from "../components/PageIntro";
+import { ShippingArt } from "../components/IntroArt";
 import { CapabilityList, SplitFeature } from "../components/blocks";
 import { RuleBuilder } from "../components/RuleBuilder";
 import { Surface } from "../components/Surface";
-import { Workflow } from "../components/home/Workflow";
 import { Faq } from "../components/Faq";
 import { Closing } from "../components/Closing";
 
@@ -70,6 +70,7 @@ export default function Shipping() {
       <PageIntro
         eyebrow="Shipping software"
         title={["Your shipping desk,", "minus the desk."]}
+        aside={<ShippingArt />}
         lead="Orders arrive by themselves, rules pick the service, labels come out ready to print, and the customer gets tracking that looks like it came from you. What is left is the packing."
         actions={
           <>
@@ -83,7 +84,9 @@ export default function Shipping() {
         }
       />
 
-      <Workflow />
+      {/* The homepage's four-step workflow used to repeat here word for word.
+          The opening instrument now tells that story (order, rule, label),
+          so the page goes straight to the part only this page covers. */}
 
       <SplitFeature
         tinted

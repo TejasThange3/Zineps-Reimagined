@@ -26,7 +26,7 @@ const figures = [
 
 export function Scale() {
   return (
-    <section className="scale" id="scale">
+    <section className="scale" id="scale" data-surface="deep">
       <div className="shell shell-wide scale-in">
         <div className="scale-top">
           <div className="scale-copy">

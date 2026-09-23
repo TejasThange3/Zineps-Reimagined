@@ -468,3 +468,31 @@
   color: var(--text-mute);
   max-width: 46ch;
 }
+
+/* ---- Directory logo tiles ----------------------------------------------
+   Every mark sits in a tile of one fixed height, so the grid reads as a row
+   of equal objects rather than a scatter of differently sized plates. The
+   optical-size formula still governs wordmarks inside the tile, but a
+   badge-style logo (square app icon, shield, stamp) fills the tile's height:
+   at the formula's size it shrank to a coloured dot inside its own plate. */
+
+.dir-mark .chip {
+  box-sizing: border-box;
+  height: 48px;
+  min-width: 48px;
+  padding: 0 0.8rem;
+}
+
+:root[data-theme="dark"] .dir-mark .chip {
+  padding: 0 0.8rem;
+}
+
+.dir-mark .mark[data-badge] {
+  width: auto;
+  height: 32px;
+}
+
+/* A badge is its own container, so the tile hugs it instead of framing it. */
+.dir-mark .chip:has(.mark[data-badge]) {
+  padding: 0 0.5rem;
+}

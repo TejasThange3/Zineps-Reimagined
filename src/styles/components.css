@@ -42,7 +42,8 @@
 .btn-primary {
   box-shadow: var(--sh-2);
 }
-:root[data-theme="dark"] .btn-primary {
+:root[data-theme="dark"] .btn-primary,
+.hdr[data-over="deep"] .btn-primary {
   --btn-fg: var(--ink-950);
 }
 

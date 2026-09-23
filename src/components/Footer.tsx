@@ -1,4 +1,5 @@
 import { Logo } from "./Logo";
+import { FooterMark } from "./FooterMark";
 
 const columns = [
   {
@@ -90,6 +91,8 @@ export function Footer() {
           </a>
         </div>
       </div>
+
+      <FooterMark />
     </footer>
   );
 }

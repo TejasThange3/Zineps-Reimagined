@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Display } from "../components/Display";
 import { optical } from "../lib/optical";
 import { PageIntro } from "../components/PageIntro";
+import { PricingArt } from "../components/IntroArt";
 import { Segmented } from "../components/Segmented";
 import { Faq } from "../components/Faq";
 import { Closing } from "../components/Closing";
@@ -62,6 +63,7 @@ export default function Pricing() {
     <>
       <PageIntro
         title={["You pay for what you ship,", "and not a parcel more."]}
+        aside={<PricingArt annual={annual} volume={volume} />}
         lead="A platform fee plus a few cents a label. The per-label fee falls as you grow, so the more you ship the less each shipment costs to process. Postage is separate."
         actions={
           <Segmented
@@ -192,7 +194,7 @@ export default function Pricing() {
                   className="plan"
                   shift={14}
                 >
-                  <div className="plan-in" data-pick={isPick || undefined}>
+                  <div className="plan-in spot" data-pick={isPick || undefined}>
                     <div className="plan-head">
                       <h2>{plan.name}</h2>
                       {plan.popular ? (
@@ -347,8 +349,7 @@ export default function Pricing() {
             <div className="unit-cost-chart">
               <BarChart
                 label="Cost per shipment by plan, at each plan's included volume"
-                values={[10, 14, 13, 18, 17].map((_, i) => {
-                  const plan = plans[i];
+                values={plans.map((plan) => {
                   const cents =
                     ((plan.annual + plan.included * plan.label) /
                       plan.included) *
@@ -356,6 +357,8 @@ export default function Pricing() {
                   return Math.round(cents);
                 })}
                 labels={plans.map((plan) => plan.name.replace("-", "‑"))}
+                format={(cents) => `${cents}¢`}
+                emphasis="low"
               />
               <p className="unit-cost-note">
                 Cents per shipment at each plan's included volume. Postage is

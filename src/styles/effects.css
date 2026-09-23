@@ -322,8 +322,16 @@
   position: relative;
 }
 
+/* Each pinned card reserves enough scroll for the next to travel over it.
+   60vh left a visible void under every card, and the last card, which
+   nothing travels over, reserved a full empty band before the next section.
+   It now reserves nothing. */
 .stack[data-pinned="true"] .stack-card {
-  min-height: 60vh;
+  min-height: 48vh;
+}
+
+.stack[data-pinned="true"] .stack-card:last-child {
+  min-height: 0;
 }
 
 .stack-card-in {
@@ -475,4 +483,128 @@
 :root[data-theme="dark"] .grain {
   mix-blend-mode: screen;
   opacity: 0.05;
+}
+
+/* ---- Bar values -------------------------------------------------------
+   Each bar prints its value, and the values arrive after the bars have
+   grown, so the number lands on a finished shape rather than chasing a
+   moving one. */
+
+.chart-value {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  fill: var(--text-soft);
+  opacity: 0;
+  transform: translateY(3px);
+  transition:
+    opacity 360ms var(--ease-out),
+    transform 360ms var(--ease-out);
+  transition-delay: calc(520ms + var(--i) * 60ms);
+}
+
+.chart-value-peak {
+  fill: var(--accent-text);
+}
+
+.chart[data-live="true"] .chart-value {
+  opacity: 1;
+  transform: none;
+}
+
+.chart-bar-zero {
+  fill: var(--text-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-value {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Spotlight
+
+   The footer wordmark lights up under the cursor; the cards do the same, so
+   hover feels like one system rather than a different trick per component.
+   Two layers: a light on the card's edge nearest the pointer, and a faint
+   fill beneath it. src/lib/spotlight.ts writes --sx / --sy and data-spot-on.
+   ========================================================================== */
+
+@property --spot {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+/* No transition declared here: it would replace the cards' own transitions
+   (the plan's colour fade, the cover's lift). The fill follows the pointer
+   directly; the edge ring below fades on its own pseudo-element. */
+.spot {
+  position: relative;
+  --spot: 0;
+}
+
+/* The fill is a background layer, so it always paints beneath the card's own
+   content. Doubled class so it outranks the cards' own background shorthands
+   (a picked plan, a hovered plan, the blog cover) that would otherwise reset
+   it to nothing. */
+.spot.spot {
+  background-image: radial-gradient(
+    22rem circle at var(--sx, 50%) var(--sy, 50%),
+    color-mix(in srgb, var(--accent) calc(var(--spot) * 9%), transparent),
+    transparent 70%
+  );
+  background-repeat: no-repeat;
+}
+
+.spot[data-spot-on] {
+  --spot: 1;
+}
+
+/* The edge light: a gradient ring, masked down to a 1px border. */
+.spot:not(.spot-flat)::after,
+.surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: radial-gradient(
+    14rem circle at var(--sx, var(--px, 50%)) var(--sy, var(--py, 50%)),
+    color-mix(in srgb, var(--accent) 85%, transparent),
+    transparent 70%
+  );
+  /* Composite set inside the standard shorthand. Declared as a separate
+     mask-composite after a -webkit-mask it cancelled the ring entirely in
+     Chrome; the prefixed pair stays first for Safari. */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 280ms var(--ease-out);
+}
+
+.spot[data-spot-on]::after {
+  opacity: 1;
+}
+
+/* Surface already tracks its own pointer (--px / --py / --lit); its edge
+   follows the same numbers so the two card families light the same way. */
+.surface::before {
+  opacity: var(--lit, 0);
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .spot::after,
+  .surface::before {
+    transition: none;
+  }
 }

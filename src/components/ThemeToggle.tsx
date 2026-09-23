@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 
 type Mode = "light" | "dark";
 
@@ -33,10 +34,55 @@ export function ThemeToggle() {
     return () => media.removeEventListener("change", onChange);
   }, []);
 
-  const toggle = () => {
+  /* The new theme is revealed as a circle growing out of the toggle itself,
+     so the change has an origin you can see rather than a flash. The View
+     Transitions API snapshots the old page, applies the new theme, and the
+     new snapshot is clipped open from the button to the farthest corner.
+     Where the API is missing, or motion is reduced, it simply switches. */
+  const toggle = (event: React.MouseEvent<HTMLButtonElement>) => {
     const next: Mode = mode === "dark" ? "light" : "dark";
     localStorage.setItem("zineps-theme", next);
-    setMode(next);
+
+    const root = document.documentElement;
+    const apply = () => {
+      root.dataset.theme = next;
+      flushSync(() => setMode(next));
+    };
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!document.startViewTransition || reduce) {
+      apply();
+      return;
+    }
+
+    const box = event.currentTarget.getBoundingClientRect();
+    const x = box.left + box.width / 2;
+    const y = box.top + box.height / 2;
+    const radius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+
+    root.classList.add("vt-theme");
+    const transition = document.startViewTransition(apply);
+    transition.ready
+      .then(() => {
+        root.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${radius}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 620,
+            easing: "cubic-bezier(0.65, 0, 0.35, 1)",
+            pseudoElement: "::view-transition-new(root)",
+          },
+        );
+      })
+      .catch(() => {});
+    transition.finished.finally(() => root.classList.remove("vt-theme"));
   };
 
   return (

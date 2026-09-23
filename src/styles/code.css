@@ -186,3 +186,54 @@
   }
 
 }
+
+/* ---- Scroll affordance on narrow screens -------------------------------
+   The block has always scrolled sideways on a phone; nothing said so, and a
+   hard cut mid-token read as a rendering fault. A soft right edge says
+   "more this way", and where scroll-driven animation exists the fade lifts
+   as you reach the end, so the last characters are never left under it. */
+
+@property --fade {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 2.5rem;
+}
+
+@media (max-width: 720px) {
+  .dev-code {
+    --fade: 2.5rem;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 calc(100% - var(--fade)),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 calc(100% - var(--fade)),
+      transparent
+    );
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .dev-code::-webkit-scrollbar {
+    display: none;
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .dev-code {
+      animation: dev-code-fade linear both;
+      animation-timeline: scroll(self inline);
+    }
+
+    @keyframes dev-code-fade {
+      0%,
+      85% {
+        --fade: 2.5rem;
+      }
+      100% {
+        --fade: 0rem;
+      }
+    }
+  }
+}

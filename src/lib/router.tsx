@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 
 /**
  * A very small client router.
@@ -33,26 +34,36 @@ export function useRoute(ssrPath?: string) {
     ),
   );
 
-  const go = useCallback((next: string, replace = false) => {
-    const target = normalisePath(next);
-    if (target === normalisePath(location.pathname)) return;
-
-    const swap = () => {
-      if (replace) history.replaceState({}, "", target);
-      else history.pushState({}, "", target);
-      setPath(target);
-    };
-
-    const doc = document as Document & {
-      startViewTransition?: (cb: () => void) => void;
-    };
+  /* Runs a view change inside a view transition. The new page has to be in
+     the DOM, and scrolled, before the callback returns: the browser takes the
+     "after" snapshot at that moment. A plain setState rendered a tick later,
+     so the transition cross-faded the old page into itself and the new page
+     then snapped in, and the scroll to top landed after it as a second jump. */
+  const transition = useCallback((change: () => void) => {
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-
-    if (doc.startViewTransition && !reduce) doc.startViewTransition(swap);
-    else swap();
+    if (!document.startViewTransition || reduce) {
+      change();
+      return;
+    }
+    document.startViewTransition(() => flushSync(change));
   }, []);
+
+  const go = useCallback(
+    (next: string, replace = false, hash = "") => {
+      const target = normalisePath(next);
+      if (target === normalisePath(location.pathname) && !hash) return;
+
+      transition(() => {
+        if (replace) history.replaceState({}, "", target + hash);
+        else history.pushState({}, "", target + hash);
+        setPath(target);
+        window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+      });
+    },
+    [transition],
+  );
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
@@ -70,7 +81,7 @@ export function useRoute(ssrPath?: string) {
 
       event.preventDefault();
       if (url.hash) {
-        // Same-page fragment on a different route: navigate, then scroll.
+        // Fragment on another route: navigate, then scroll to the fragment.
         go(url.pathname);
         requestAnimationFrame(() => {
           document
@@ -80,10 +91,11 @@ export function useRoute(ssrPath?: string) {
         return;
       }
       go(url.pathname);
-      window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
     };
 
-    const onPop = () => setPath(normalisePath(location.pathname));
+    // Back and forward get the same transition as a click.
+    const onPop = () =>
+      transition(() => setPath(normalisePath(location.pathname)));
 
     document.addEventListener("click", onClick);
     window.addEventListener("popstate", onPop);
@@ -91,7 +103,7 @@ export function useRoute(ssrPath?: string) {
       document.removeEventListener("click", onClick);
       window.removeEventListener("popstate", onPop);
     };
-  }, [go]);
+  }, [go, transition]);
 
   return { path, go };
 }

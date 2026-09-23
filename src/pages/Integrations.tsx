@@ -1,11 +1,13 @@
 import { useDeferredValue, useMemo, useState } from "react";
 import { Display } from "../components/Display";
 import { PageIntro } from "../components/PageIntro";
+import { IntegrationsArt } from "../components/IntroArt";
 import { Segmented } from "../components/Segmented";
 import { Faq } from "../components/Faq";
 import { Closing } from "../components/Closing";
 import { Mark } from "../components/Mark";
 import { NumberTicker } from "../components/NumberTicker";
+import { slugify } from "../components/CommandMenu";
 import {
   categories,
   integrations,
@@ -48,6 +50,7 @@ export default function Integrations() {
     <>
       <PageIntro
         title={["Keep the stack you have.", "Change what it costs to ship."]}
+        aside={<IntegrationsArt />}
         lead="Connect your stores, marketplaces, warehouse software and carriers once. After that every order arrives in the same queue and every label comes out of the same workflow."
         actions={
           <>
@@ -108,7 +111,11 @@ export default function Integrations() {
           {results.length > 0 ? (
             <ul className="dir-grid">
               {results.map((item) => (
-                <li key={item.name} className="dir-item">
+                <li
+                  key={item.name}
+                  id={`int-${slugify(item.name)}`}
+                  className="dir-item spot spot-flat"
+                >
                   <div className="dir-mark">
                     {item.mark ? (
                       <span className="chip">

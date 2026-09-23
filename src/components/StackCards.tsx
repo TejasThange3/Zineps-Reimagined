@@ -68,10 +68,13 @@ export function StackCards({
                half-visible behind each other is a pile, not a stack. The
                fade finishes early (at 62% of the travel) so the incoming
                card arrives on a clean surface. */
+            /* A slight blur as it recedes: at half opacity with no blur a
+               card read as disabled, where blur reads as depth, behind. */
             gsap.to(card.querySelector(".stack-card-in"), {
-              scale: 0.9,
+              scale: 0.92,
               opacity: 0,
-              y: -28,
+              y: -24,
+              filter: "blur(3px)",
               ease: "none",
               scrollTrigger: {
                 trigger: items[i + 1],

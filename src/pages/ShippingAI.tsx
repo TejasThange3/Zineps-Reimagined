@@ -1,4 +1,5 @@
 import { PageIntro } from "../components/PageIntro";
+import { AIArt } from "../components/IntroArt";
 import { CapabilityList, SplitFeature } from "../components/blocks";
 import { Intelligence } from "../components/home/Intelligence";
 import { Faq } from "../components/Faq";
@@ -56,6 +57,7 @@ export default function ShippingAI() {
       <PageIntro
         eyebrow="Shipping AI"
         title={["Know which carrier is", "about to let you down."]}
+        aside={<AIArt />}
         lead="A late parcel is not a shipping problem, it is a support ticket, a refund and sometimes a lost customer. Shipping AI scores the risk on your lanes while you can still do something about it."
         actions={
           <>

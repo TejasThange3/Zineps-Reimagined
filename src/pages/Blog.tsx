@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { optical } from "../lib/optical";
 import { PageIntro } from "../components/PageIntro";
+import { BlogArt } from "../components/IntroArt";
 import { Segmented } from "../components/Segmented";
 import { Closing } from "../components/Closing";
 import { Reveal } from "../components/Reveal";
@@ -16,6 +17,7 @@ export default function Blog() {
     <>
       <PageIntro
         title={["Notes from the part of e-commerce", "nobody photographs."]}
+        aside={<BlogArt />}
         lead="Packaging maths, rule sets, customs fields and return reasons. The unglamorous decisions that decide what shipping actually costs you."
         actions={
           <Segmented
@@ -31,7 +33,7 @@ export default function Blog() {
         <div className="shell shell-wide">
           {lead ? (
             <a href={`/blog/${lead.slug}`} className="jrn-hero">
-              <ArticleCover slug={lead.slug} className="jrn-hero-art" />
+              <ArticleCover slug={lead.slug} className="jrn-hero-art spot" />
               <div className="jrn-hero-copy">
                 <p className="jrn-meta mono">
                   {lead.topic} <span aria-hidden="true">·</span> {lead.minutes}{" "}
@@ -56,7 +58,7 @@ export default function Blog() {
                   <a href={`/blog/${article.slug}`} className="jrn-tile">
                     <ArticleCover
                       slug={article.slug}
-                      className="jrn-tile-art"
+                      className="jrn-tile-art spot"
                     />
                     <div className="jrn-tile-body">
                       <p className="jrn-meta mono">

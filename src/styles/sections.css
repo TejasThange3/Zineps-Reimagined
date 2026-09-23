@@ -30,15 +30,27 @@
   mask-image: linear-gradient(
     to right,
     transparent,
-    #000 8%,
-    #000 92%,
+    rgba(0, 0, 0, 0.12) 3%,
+    rgba(0, 0, 0, 0.42) 7%,
+    rgba(0, 0, 0, 0.78) 11%,
+    #000 15%,
+    #000 85%,
+    rgba(0, 0, 0, 0.78) 89%,
+    rgba(0, 0, 0, 0.42) 93%,
+    rgba(0, 0, 0, 0.12) 97%,
     transparent
   );
   -webkit-mask-image: linear-gradient(
     to right,
     transparent,
-    #000 8%,
-    #000 92%,
+    rgba(0, 0, 0, 0.12) 3%,
+    rgba(0, 0, 0, 0.42) 7%,
+    rgba(0, 0, 0, 0.78) 11%,
+    #000 15%,
+    #000 85%,
+    rgba(0, 0, 0, 0.78) 89%,
+    rgba(0, 0, 0, 0.42) 93%,
+    rgba(0, 0, 0, 0.12) 97%,
     transparent
   );
 }
@@ -443,4 +455,22 @@
   .closing-copy h2 br {
     display: none;
   }
+}
+
+/* The carousel follows the directory's rule: one plate height for every
+   mark, and badge-shaped logos fill it rather than floating in it. */
+:root[data-theme="dark"] .wall-run .chip {
+  box-sizing: border-box;
+  height: 44px;
+  min-width: 44px;
+  padding: 0 0.8rem;
+}
+
+.wall-run .mark[data-badge] {
+  width: auto;
+  height: 30px;
+}
+
+:root[data-theme="dark"] .wall-run .chip:has(.mark[data-badge]) {
+  padding: 0 0.45rem;
 }

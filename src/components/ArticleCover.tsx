@@ -330,7 +330,13 @@ export function ArticleCover({
 }) {
   const Cover = COVERS[slug] ?? DimensionalWeight;
   return (
-    <div className={`cover ${className}`}>
+    <div
+      className={`cover ${className}`}
+      /* Named per article, so the cover on a blog card and the cover in the
+         article header are one element to the browser, and it moves between
+         the two pages instead of fading. Every slug appears once per page. */
+      style={{ viewTransitionName: `cover-${slug}` } as React.CSSProperties}
+    >
       <Cover />
     </div>
   );

@@ -39,7 +39,21 @@ for (const theme of ["light", "dark"]) {
 
     for (const route of routes) {
       await page.goto(BASE + route, { waitUntil: "networkidle" });
-      await page.waitForTimeout(250);
+      // Pages now play short entrances; contrast is measured on the settled
+      // page, not on text halfway through fading in. Infinite ambient loops
+      // (a status pulse) never finish, so they are ignored.
+      await page
+        .waitForFunction(
+          () =>
+            document
+              .getAnimations()
+              .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
+              .every((a) => a.playState !== "running"),
+          null,
+          { timeout: 4000 },
+        )
+        .catch(() => {});
+      await page.waitForTimeout(150);
       const { violations } = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
         .analyze();

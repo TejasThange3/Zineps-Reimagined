@@ -38,6 +38,7 @@ export function Mark({
     <img
       className={`mark ${className}`}
       data-lift={entry?.lift || undefined}
+      data-badge={ratio <= 1.45 || undefined}
       src={`/assets/marks-colour/${id}.png`}
       alt={name}
       width={Math.round(height * ratio)}

@@ -82,6 +82,7 @@ export const integrations: Integration[] = [
   {
     name: "Amazon",
     category: "Marketplaces",
+    mark: "amazon",
     blurb: "Seller-fulfilled orders alongside every other channel.",
   },
   {
@@ -99,6 +100,7 @@ export const integrations: Integration[] = [
   {
     name: "Temu",
     category: "Marketplaces",
+    mark: "temu",
     blurb: "Marketplace orders routed through your existing carrier mix.",
   },
 
@@ -148,16 +150,19 @@ export const integrations: Integration[] = [
   {
     name: "SnelStart",
     category: "Operations",
+    mark: "snelstart",
     blurb: "Dutch bookkeeping kept in sync with shipment costs.",
   },
   {
     name: "Moneybird",
     category: "Operations",
+    mark: "moneybird",
     blurb: "Invoicing that reconciles against the labels you bought.",
   },
   {
     name: "StockitUP",
     category: "Operations",
+    mark: "stockitup",
     blurb: "Inventory and warehouse management for growing stores.",
   },
 
@@ -171,6 +176,7 @@ export const integrations: Integration[] = [
   {
     name: "PostNL",
     category: "Carriers",
+    mark: "postnl",
     blurb: "The Dutch postal network, including parcel lockers.",
   },
   {
@@ -206,11 +212,13 @@ export const integrations: Integration[] = [
   {
     name: "Correos",
     category: "Carriers",
+    mark: "correos",
     blurb: "Spanish postal network for Iberian destinations.",
   },
   {
     name: "DB Schenker",
     category: "Carriers",
+    mark: "dbschenker",
     blurb: "Freight and pallet movements for heavier B2B shipments.",
   },
 ];

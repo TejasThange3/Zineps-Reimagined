@@ -1,4 +1,5 @@
 import { PageIntro } from "../components/PageIntro";
+import { PartnersArt } from "../components/IntroArt";
 import { FigureRow, ProblemList, SplitFeature } from "../components/blocks";
 import { Faq } from "../components/Faq";
 import { Surface } from "../components/Surface";
@@ -75,6 +76,7 @@ export default function Partners() {
       <PageIntro
         eyebrow="For logistics partners"
         title={["Run the commercial side", "of logistics on one system."]}
+        aside={<PartnersArt />}
         lead="Publish rates, set margins per customer group, invoice automatically and support the merchants you already serve. They ship in Zineps. The relationship stays yours."
         actions={
           <>
